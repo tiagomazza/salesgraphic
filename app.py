@@ -43,6 +43,8 @@ df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
 df = df.sort_values(by='Cliente')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
+data['Artigo'] = data['Artigo'].astype(str)
+data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 data['Artigo'][1:] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['Artigo'].str[:3].map(dicionario_fornecedores)
@@ -50,7 +52,10 @@ df['Marca'] = df['Artigo'].str[:3].map(dicionario_fornecedores)
 
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Clientes')
+
 data['Vendedor'][1:] = data['Vendedor'][1:].astype(str)
+data['Vendedor'] = data['Vendedor'].astype(str)
+data.loc[1:, 'Vendedor'] = data['Vendedor'][1:].astype(str)
 data['Cliente'] = data['Cliente'].astype(str).apply(format_string_to_4_digits)
 dicionario_clientes = dict(zip(data['Cliente'], data['Vendedor']))
 df['Cliente'] = df['Cliente'].apply(format_string_to_4_digits)
