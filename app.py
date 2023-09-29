@@ -122,59 +122,47 @@ st.markdown("---")
 
 
 
-df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
-df_selection["Valor Líquido"].iloc[1:] = df_selection["Valor Líquido"].iloc[1:].astype(float)
-
 sales_by_product_line = (
-    df_selection.groupby(by=["Marca"]).sum()[["Valor Líquido"]])
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].dtype(float) #apply(formatar_euro)
-sales_by_product_line["Valor Líquido"] = pd.to_numeric(sales_by_product_line["Valor Líquido"], errors="coerce")
-df_selection["Data_numeric"] = df_selection["Data"].view("int64")
-sales_by_product_line = sales_by_product_line.sort_values(by="Data_numeric", ascending=False)
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
+    df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
+)
 
-df_selection.drop(columns=["Data_numeric"], inplace=True)
+sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
 
 fig_product_sales = px.bar(
     sales_by_product_line,
     x="Valor Líquido",
-    y=sales_by_product_line.index,
-    text = "Valor Líquido",
+    y="Marca",
+    text="Valor Líquido",
     orientation="h",
-    title= "Vendas por marca",
+    title="Vendas por marca",
     color_discrete_sequence=["#0083B8"] * len(sales_by_product_line),
-     width=800,
+    width=800,
     height=1200
-    #template="plotly_white"
 )
+
 st.plotly_chart(fig_product_sales)
 
 # Sales by client
 
-sales_client = (df_selection.groupby(by=["Cliente"]).sum()[["Valor Líquido"]])
+sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
 sales_client = sales_client.sort_values(by="Valor Líquido", ascending=False)
-sales_client["Valor Líquido"] = sales_client["Valor Líquido"].apply(formatar_euro) 
-sales_client["Valor Líquido"] = pd.to_numeric(sales_client["Valor Líquido"], errors="coerce")
-df_selection["Data_numeric"] = df_selection["Data"].view("int64")
-sales_by_product_client = sales_by_client.sort_values(by="Data_numeric", ascending=False)
-df_selection.drop(columns=["Data_numeric"], inplace=True)
+sales_client["Valor Líquido"] = sales_client["Valor Líquido"].apply(formatar_euro)
 
-altura_por_linha = 30 
+altura_por_linha = 30
 altura_da_figura = len(sales_client) * altura_por_linha
 
 fig_product_client = px.bar(
     sales_client,
     x="Valor Líquido",
-    y= sales_client.index,
-    text = "Valor Líquido",
+    y="Cliente",
+    text="Valor Líquido",
     orientation="h",
-    title= "Vendas por Cliente",
+    title="Vendas por Cliente",
     color_discrete_sequence=["#0083B8"] * len(sales_client),
     width=800,
     height=altura_da_figura,
     template="plotly_white"
 )
-fig_product_client.update_layout()
 
 st.plotly_chart(fig_product_client)
 
