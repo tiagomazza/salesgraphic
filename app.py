@@ -126,6 +126,7 @@ sales_by_product_line = (
 )
 
 sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
+sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].astype(float)
 
 fig_product_sales = px.bar(
     sales_by_product_line,
