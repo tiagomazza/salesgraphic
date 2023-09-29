@@ -117,17 +117,17 @@ with right_column:
 
 st.markdown("---")
 
-
+# --- sales graphic ---
 # sales by product line
-
 df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
 
 sales_by_product_line = (
     df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
 )
 
-# Organize as barras por "Valor Líquido" em ordem decrescente
 sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
+sales_by_product_line["Valor Líquido"].apply(formatar_euro)
+
 
 fig_product_sales = px.bar(
     sales_by_product_line,
@@ -160,7 +160,7 @@ fig_product_client = px.bar(
     color="Valor Líquido",
     color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
-    height=4000
+    height=5000
 )
 
 #fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
