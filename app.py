@@ -167,8 +167,6 @@ fig_product_client = px.bar(
     height= altura_desejada
    
 )
-fig_product_client.update_yaxes(showline=True, linewidth=1, linecolor='black')  # Adicione linhas das escalas de valor no eixo x
-
 #fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
 fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 fig_product_client.update_coloraxes(showscale=False)
