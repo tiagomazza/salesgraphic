@@ -29,7 +29,7 @@ def format_string_to_4_digits(input_string):
     return formatted_string
 
 def formatar_euro(valor):
-    return '€{:,.2f}'.format(valor)
+    return '{:,.2f}€'.format(valor)
 
 df ['Cliente'] = df.apply(lambda row:row['Data'] if row['Artigo'] != '' else None, axis=1)
 df['Cliente'] = pd.to_numeric(df['Cliente'], errors='coerce')
@@ -126,13 +126,13 @@ sales_by_product_line = (
 )
 
 sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].astype(float)
+sales_by_product_line["Valor Líquido Formatado"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
 
 fig_product_sales = px.bar(
     sales_by_product_line,
     x="Valor Líquido",
     y="Marca",
-    text="Valor Líquido",
+    text="Valor Líquido Formatado",
     title="Vendas por marca",
     color="Valor Líquido",
     color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
