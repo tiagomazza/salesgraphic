@@ -142,8 +142,8 @@ fig_product_sales = px.bar(
 )
 
 #fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-fig_product_sales.update_layout
-fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido", plot_bgcolor="rgba(0,0,0,0)")
+fig_product_sales.update_layout(plot_bgcolor="rgba(0,0,0,0)")
+fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido")
 fig_product_sales.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_sales)
 
