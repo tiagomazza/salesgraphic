@@ -120,52 +120,47 @@ st.markdown("---")
 
 # sales by product line
 
-
 df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
 
 sales_by_product_line = (
     df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
 )
 
-sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
-
 fig_product_sales = px.bar(
     sales_by_product_line,
     x="Valor Líquido",
     y="Marca",
     text="Valor Líquido",
-    orientation="h",
     title="Vendas por marca",
-    color_discrete_sequence=["#0083B8"] * len(sales_by_product_line),
+    color="Valor Líquido",
+    color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
     height=1200
 )
 
+fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
+
+fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido")
 st.plotly_chart(fig_product_sales)
 
 # Sales by client
-
 sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
-sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
-sales_client["Valor Líquido"] = sales_client["Valor Líquido"].apply(formatar_euro)
-
-altura_por_linha = 30
-altura_da_figura = len(sales_client) * altura_por_linha
 
 fig_product_client = px.bar(
     sales_client,
     x="Valor Líquido",
     y="Cliente",
     text="Valor Líquido",
-    orientation="h",
     title="Vendas por Cliente",
-    color_discrete_sequence=["#0083B8"] * len(sales_client),
+    color="Valor Líquido",
+    color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
-    height=altura_da_figura,
-    template="plotly_white"
+    height=altura_da_figura
 )
 
+fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
+
+fig_product_client.update_layout(yaxis_title="Cliente", xaxis_title="Valor Líquido")
 st.plotly_chart(fig_product_client)
 
 
