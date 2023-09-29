@@ -152,7 +152,7 @@ sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().rese
 sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
 sales_client["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
 
-altura_desejada_por_cliente = 50  # Defina a altura desejada por cliente em pixels
+altura_desejada_por_cliente = 40  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
 fig_product_client = px.bar(
