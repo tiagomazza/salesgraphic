@@ -143,7 +143,7 @@ st.plotly_chart(fig_product_sales)
 # Sales by client
 
 sales_client = (df_selection.groupby(by=["Cliente"]).sum()[["Valor Líquido"]])
-sales_client = sales_client.sort_values(by="Valor Líquido", ascending=False
+sales_client = sales_client.sort_values(by="Valor Líquido", ascending=False)
 sales_client["Valor Líquido"] = sales_client["Valor Líquido"].apply(formatar_euro) 
 altura_por_linha = 30 
 altura_da_figura = len(sales_client) * altura_por_linha
