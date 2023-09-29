@@ -155,7 +155,7 @@ fig_product_client = px.bar(
     color="Valor Líquido",
     color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
-    height=altura_da_figura
+    height=4000
 )
 
 fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
