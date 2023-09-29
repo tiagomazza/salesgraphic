@@ -122,6 +122,8 @@ st.markdown("---")
 
 
 
+df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
+df_selection["Valor Líquido"].iloc[1:] = df_selection["Valor Líquido"].iloc[1:].astype(float)
 
 sales_by_product_line = (
     df_selection.groupby(by=["Marca"]).sum()[["Valor Líquido"]])
