@@ -141,7 +141,7 @@ fig_product_sales = px.bar(
     height=1200
 )
 
-fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
+#fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
 
 fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido")
 st.plotly_chart(fig_product_sales)
@@ -164,7 +164,7 @@ fig_product_client = px.bar(
     height=4000
 )
 
-fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
+#fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
 
 fig_product_client.update_layout(yaxis_title="Cliente", xaxis_title="Valor Líquido")
 st.plotly_chart(fig_product_client)
