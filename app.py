@@ -127,8 +127,8 @@ sales_by_product_line = (
     df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
 )
 
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
 sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=False)
+sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
 
 fig_product_sales = px.bar(
     sales_by_product_line,
