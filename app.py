@@ -149,21 +149,23 @@ st.plotly_chart(fig_product_sales)
 # Sales by client
 sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
 sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
+sales_client["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
+
 
 fig_product_client = px.bar(
     sales_client,
     x="Valor Líquido",
     y="Cliente",
-    text="Valor Líquido",
+    text="Valor Líquido Formatado",
     title="Vendas por Cliente",
     color="Valor Líquido",
     color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
-    height=5000
+   
 )
 
 #fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-
+fig_product_sales.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 fig_product_client.update_layout(yaxis_title="Cliente", xaxis_title="Valor Líquido")
 fig_product_client.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_client)
