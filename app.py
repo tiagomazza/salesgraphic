@@ -118,6 +118,7 @@ with right_column:
 st.markdown("---")
 
 # --- sales graphic ---
+altura_desejada_por_cliente = 50  # Defina a altura desejada por cliente em pixels
 # sales by product line
 df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
 
@@ -137,7 +138,7 @@ fig_product_sales = px.bar(
     color="Valor Líquido",
     color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
     width=800,
-    height=1200
+    height=altura_desejada_por_cliente
 )
 
 #fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
@@ -166,7 +167,7 @@ fig_product_client = px.bar(
     height= altura_desejada
    
 )
-fig_product_client.update_xaxes(showline=True, linewidth=1, linecolor='black')  # Adicione linhas das escalas de valor no eixo x
+fig_product_client.update_yaxes(showline=True, linewidth=1, linecolor='black')  # Adicione linhas das escalas de valor no eixo x
 
 #fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
 fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
