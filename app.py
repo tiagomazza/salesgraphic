@@ -142,15 +142,13 @@ fig_product_sales = px.bar(
 )
 
 #fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-
-fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido")
+fig_product_sales.update_layout
+fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido", plot_bgcolor="rgba(0,0,0,0)")
 fig_product_sales.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_sales)
 
 # Sales by client
 sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
-
-# Organize as barras por "Valor Líquido" em ordem decrescente
 sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
 
 fig_product_client = px.bar(
