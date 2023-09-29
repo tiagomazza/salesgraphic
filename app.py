@@ -127,7 +127,7 @@ sales_by_product_line = (
     df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
 )
 
-sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=False)
+sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
 sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
 
 fig_product_sales = px.bar(
@@ -147,7 +147,7 @@ st.plotly_chart(fig_product_sales)
 # Sales by client
 
 sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
-sales_client = sales_client.sort_values(by="Valor Líquido", ascending=False)
+sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
 sales_client["Valor Líquido"] = sales_client["Valor Líquido"].apply(formatar_euro)
 
 altura_por_linha = 30
