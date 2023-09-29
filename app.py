@@ -125,10 +125,12 @@ st.markdown("---")
 
 sales_by_product_line = (
     df_selection.groupby(by=["Marca"]).sum()[["Valor Líquido"]])
-sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
+sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].dtype(float) #apply(formatar_euro)
 sales_by_product_line["Valor Líquido"] = pd.to_numeric(sales_by_product_line["Valor Líquido"], errors="coerce")
 df_selection["Data_numeric"] = df_selection["Data"].view("int64")
 sales_by_product_line = sales_by_product_line.sort_values(by="Data_numeric", ascending=False)
+sales_by_product_line["Valor Líquido"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
+
 df_selection.drop(columns=["Data_numeric"], inplace=True)
 
 fig_product_sales = px.bar(
