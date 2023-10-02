@@ -193,13 +193,33 @@ data = {
 df3 = pd.DataFrame(data)
 
 # Crie um gráfico de barras sobreposto
-fig = px.bar(df3, x="Número do Cliente", y=["Valor A", "Valor B"],
-             title="Gráfico de Barras Sobreposto",
-             labels={"value": "Valores"},
-             template="plotly_white", orientation='h')
+fig = go.Figure()
 
-fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
-fig.update_layout(barmode="overlay")  # Define o modo de sobreposição
+fig.add_trace(go.Bar(
+    y=df3["Número do Cliente"],
+    x=df3["Valor A"],
+    name="Valor A",
+    orientation='h',
+    marker=dict(color='blue'),  # Cor invertida para Valor A
+    width=0.5,  # Largura uniforme das barras
+))
+
+fig.add_trace(go.Bar(
+    y=df3["Número do Cliente"],
+    x=df3["Valor B"],
+    name="Valor B",
+    orientation='h',
+    marker=dict(color='red'),  # Cor invertida para Valor B
+    width=0.5,  # Largura uniforme das barras
+))
+
+fig.update_layout(
+    title="Gráfico de Barras Sobreposto Horizontal",
+    xaxis_title="Valores",
+    yaxis_title="Número do Cliente",
+    barmode="overlay",  # Define o modo de sobreposição
+)
+
 # Mostra o gráfico
 st.plotly_chart(fig)
 
