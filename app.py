@@ -12,9 +12,18 @@ df = pd.read_excel(
     skiprows=0,
     usecols="A:F",
     nrows=8000
-
-
 )
+
+df2 = pd.read_excel(
+    io="base.xlsx",
+    engine="openpyxl",
+    sheet_name= "Sheet1",
+    skiprows=0,
+    usecols="A:F",
+    nrows=8000
+)
+#valor a ser dividido o anual do ano passado afim de uma média mensal.
+fator_de_divisao = 11
 #funçao de conversao dos clientes no formato 4 digitos
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
@@ -175,6 +184,29 @@ fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 fig_product_client.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_client)
 
+# -- grafico comparativo --
+
+df2 ['Cliente'] = df2.apply(lambda row:row['Data'] if row['Artigo'] != '' else None, axis=1)
+df2['Cliente'] = pd2.to_numeric(df['Cliente'], errors='coerce')
+df2['Cliente'] = df2['Cliente'].apply(lambda x: x if not pd.isna(x) else np.nan).ffill()
+df2['Cliente'] = df2['Cliente'].astype(str)
+df2 = df2[~(df2['Data'] == 'Total Cliente')]
+df2.dropna(subset=['Valor Líquido'], inplace=True)
+df2['Data'] = pd.to_datetime(df2['Data'])
+df2['Mes_Ano'] = df2['Data'].dt2.strftime('%m-%Y')
+df2 = df.sort_values(by='Cliente')
+df2["Valor comparativo"]== ['Valor Líquido'] / fator_de_divisao
+
+
+fig = px.bar(df, x="Cliente", y=["Valor comparativo", 'Valor Líquido'],
+             title="Gráfico de Barras Sobreposto",
+             labels={"value": "Valores"},
+             template="plotly_dark")
+
+fig.update_layout(barmode="overlay")  # Define o modo de sobreposição
+
+# Mostra o gráfico
+fig.show()
 
 hide_st_style = """
     <style>
