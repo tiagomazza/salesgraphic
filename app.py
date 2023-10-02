@@ -56,8 +56,6 @@ data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['Artigo'].str[:3].map(dicionario_fornecedores)
 
-
-
 data = pd.read_excel('listagens.xlsx', sheet_name='Clientes')
 
 data.loc[1:, 'Vendedor'] = data['Vendedor'][1:].astype(str)
@@ -193,7 +191,7 @@ df2['Cliente'] = df2['Cliente'].astype(str)
 df2 = df2[~(df2['Data'] == 'Total Cliente')]
 df2.dropna(subset=['Valor Líquido'], inplace=True)
 df2['Data'] = pd.to_datetime(df2['Data'])
-df2['Mes_Ano'] = df2['Data'].dt2.strftime('%m-%Y')
+#df2['Mes_Ano'] = df2['Data'].dt2.strftime('%m-%Y')
 df2 = df.sort_values(by='Cliente')
 df2["Valor comparativo"]== ['Valor Líquido'] / fator_de_divisao
 
