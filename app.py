@@ -200,7 +200,7 @@ fig.add_trace(go.Bar(
     x=df3["Valor A"],
     name="Valor A",
     orientation='h',
-    marker=dict(color='blue'),  # Cor invertida para Valor A
+    marker=dict(color='red'),  # Cor invertida para Valor A
     width=0.5,  # Largura uniforme das barras
 ))
 
@@ -209,7 +209,7 @@ fig.add_trace(go.Bar(
     x=df3["Valor B"],
     name="Valor B",
     orientation='h',
-    marker=dict(color='red'),  # Cor invertida para Valor B
+    marker=dict(color='blue'),  # Cor invertida para Valor B
     width=0.5,  # Largura uniforme das barras
 ))
 
