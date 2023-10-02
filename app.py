@@ -184,19 +184,16 @@ st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
 
-df2['Cliente'] = df2.apply(lambda row:row['Data'] if row['Artigo'] != '' else None, axis=1)
-#df2['Cliente'] = pd2.to_numeric(df2['Cliente'], errors='coerce')
-df2['Cliente'] = df2['Cliente'].apply(lambda x: x if not pd.isna(x) else np.nan).ffill()
-df2['Cliente'] = df2['Cliente'].astype(str)
-df2 = df2[~(df2['Data'] == 'Total Cliente')]
-df2.dropna(subset=['Valor Líquido'], inplace=True)
-df2['Data'] = pd.to_datetime(df2['Data'])
-#df2['Mes_Ano'] = df2['Data'].dt2.strftime('%m-%Y')
-df2 = df.sort_values(by='Cliente')
-df2["Valor comparativo"]== ['Valor Líquido'] / fator_de_divisao
+data = {
+    "Número do Cliente": [1, 2, 3, 4, 5],
+    "Valor A": [10, 15, 8, 12, 9],
+    "Valor B": [7, 11, 6, 10, 8]
+}
 
+df = pd.DataFrame(data)
 
-fig = px.bar(df, x="Cliente", y=["Valor comparativo", 'Valor Líquido'],
+# Crie um gráfico de barras sobreposto
+fig = px.bar(df, x="Número do Cliente", y=["Valor A", "Valor B"],
              title="Gráfico de Barras Sobreposto",
              labels={"value": "Valores"},
              template="plotly_dark")
