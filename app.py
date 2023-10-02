@@ -190,7 +190,7 @@ data = {
     "Valor B": [7, 11, 6, 10, 8]
 }
 
-df = pd.DataFrame(data)
+df3 = pd.DataFrame(data)
 
 # Crie um gráfico de barras sobreposto
 fig = px.bar(df, x="Número do Cliente", y=["Valor A", "Valor B"],
