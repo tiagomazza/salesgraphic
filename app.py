@@ -187,7 +187,7 @@ st.plotly_chart(fig_product_client)
 # -- grafico comparativo --
 
 df2 ['Cliente'] = df2.apply(lambda row:row['Data'] if row['Artigo'] != '' else None, axis=1)
-df2['Cliente'] = pd2.to_numeric(df['Cliente'], errors='coerce')
+df2['Cliente'] = pd2.to_numeric(df2['Cliente'], errors='coerce')
 df2['Cliente'] = df2['Cliente'].apply(lambda x: x if not pd.isna(x) else np.nan).ffill()
 df2['Cliente'] = df2['Cliente'].astype(str)
 df2 = df2[~(df2['Data'] == 'Total Cliente')]
