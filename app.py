@@ -142,7 +142,7 @@ fig_product_sales = px.bar(
 )
 
 #fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-fig.update_layout(
+fig_product_sales.update_layout(
     xaxis=dict(rangemode="pad"),
     yaxis=dict(rangemode="pad"),
 )
@@ -173,7 +173,7 @@ fig_product_client = px.bar(
 )
 
 #fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-fig.update_layout(
+fig_product_client.update_layout(
     xaxis=dict(rangemode="pad"),
     yaxis=dict(rangemode="pad"),
 )
