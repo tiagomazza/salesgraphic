@@ -186,8 +186,8 @@ st.plotly_chart(fig_product_client)
 
 data = {
     "Número do Cliente": [1, 2, 3, 4, 5],
-    "Valor A": [10, 15, 8, 12, 9],
-    "Valor B": [7, 11, 6, 10, 8]
+    "Valor A": [15, 15, 15, 15, 15],
+    "Valor B": [5, 10, 15, 20, 25]
 }
 
 df3 = pd.DataFrame(data)
@@ -196,7 +196,7 @@ df3 = pd.DataFrame(data)
 fig = px.bar(df3, x="Número do Cliente", y=["Valor A", "Valor B"],
              title="Gráfico de Barras Sobreposto",
              labels={"value": "Valores"},
-             template="plotly_dark")
+             template="plotly_white")
 
 fig.update_layout(barmode="overlay")  # Define o modo de sobreposição
 # Mostra o gráfico
@@ -208,4 +208,3 @@ hide_st_style = """
     </style>
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-
