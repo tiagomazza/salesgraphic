@@ -200,7 +200,7 @@ fig = px.bar(df3, x="Número do Cliente", y=["Valor A", "Valor B"],
 
 fig.update_layout(barmode="overlay")  # Define o modo de sobreposição
 # Mostra o gráfico
-fig.show()
+st.plotly_chart(fig)
 
 hide_st_style = """
     <style>
