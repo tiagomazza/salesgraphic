@@ -219,7 +219,7 @@ fig.update_layout(
     yaxis_title="Número do Cliente",
     barmode="overlay",  # Define o modo de sobreposição
 )
-
+fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 # Mostra o gráfico
 st.plotly_chart(fig)
 
