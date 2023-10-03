@@ -184,15 +184,6 @@ st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
 
-data = {
-    "Número do Cliente": [1, 2, 3, 4, 5],
-    "Meta": [15, 15, 15, 15, 15],
-    "Valor atual": [5, 10, 15, 20, 25]
-}
-
-df3 = pd.DataFrame(data)
-
-# Crie um gráfico de barras sobreposto
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
@@ -201,7 +192,9 @@ fig.add_trace(go.Bar(
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
-    width=0.5,  # Largura uniforme das barras
+    width=0.5,  
+    width=800,
+    height= altura_desejada
 ))
 
 fig.add_trace(go.Bar(
@@ -210,13 +203,15 @@ fig.add_trace(go.Bar(
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
-    width=0.5,  # Largura uniforme das barras
+    width=0.5,  
+    width=800,
+    height= altura_desejada
 ))
 
 fig.update_layout(
     title="Gráfico de Barras Sobreposto Horizontal",
     xaxis_title="Valores",
-    yaxis_title="Número do Cliente",
+    yaxis_title="Cliente",
     barmode="overlay",  # Define o modo de sobreposição
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
