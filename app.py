@@ -25,12 +25,12 @@ df2 = pd.read_excel(
 )
 #valor a ser dividido o anual do ano passado afim de uma média mensal.
 fator_de_divisao = 11
-#funçao de conversao dos clientes no formato 4 digitos
+
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
 )
-
+#funçao de conversao dos clientes no formato 4 digitos
 def format_string_to_4_digits(input_string):
     parts = input_string.split(".")
     formatted_string = parts[0]
@@ -67,8 +67,7 @@ df['Vendedor'] = df['Cliente'].str[:4].map(dicionario_clientes)
 
 
 
-#side bar
-
+#---side bar
 st.sidebar.header("Menu")
 
 selected_page = st.sidebar.radio("Selecione uma página", ("Página Inicial", "Página 1", "Página 2"))
@@ -87,6 +86,8 @@ elif selected_page == "Página 1":
 elif selected_page == "Página 2":
     st.title("Página 2")
     st.write("Conteúdo da Página 2")
+
+
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
     options=df["Vendedor"].unique(),
@@ -143,7 +144,7 @@ with right_column:
 st.markdown("---")
 
 # --- sales graphic ---
-altura_desejada_por_cliente = 50  # Defina a altura desejada por cliente em pixels
+altura_desejada_por_cliente = 50  # altura em pixel
 # sales by product line
 df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
 
@@ -194,19 +195,18 @@ fig_product_client = px.bar(
    
 )
 
-#fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-
 fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 fig_product_client.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
-
+sales_client_per_month = sales_client 
+sales_client_per_month["Valor Líqudo por mês"] = sales_client_per_month["Valor Líqudo"] / fator_de_divisao
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
-    y=sales_client["Cliente"],
-    x=sales_client["Valor Líquido Formatado"],
+    y=sales_client_per_month["Cliente"],
+    x=sales_client_per_month["Valor Líqudo por mês"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
