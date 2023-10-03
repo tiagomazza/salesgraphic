@@ -4,7 +4,18 @@ import pandas as pd
 import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
+import streamlit as st
+from page1 import show_page1_content
+from page2 import show_page2_content
 
+# Seletor de página
+selected_page = st.sidebar.selectbox("Selecione uma página", ["Página 1", "Página 2"])
+
+# Exibir a página selecionada
+if selected_page == "Página 1":
+    show_page1_content()
+elif selected_page == "Página 2":
+    show_page2_content()
 df = pd.read_excel(
     io="base.xlsx",
     engine="openpyxl",
