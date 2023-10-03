@@ -159,7 +159,6 @@ st.plotly_chart(fig_product_sales)
 sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
 sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
 sales_client["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
-sales_client["Valor Líquido novo"] = sales_client["Valor Líquido Formatado"] *1.5
 
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
@@ -189,7 +188,7 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(
     y=sales_client["Cliente"],
-    x=sales_client["Valor Líquido novo"],
+    x=sales_client["Valor Líquido Formatado"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
