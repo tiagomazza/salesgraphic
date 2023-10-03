@@ -14,6 +14,8 @@ df = pd.read_excel(
     usecols="A:AC",
     nrows=40000
 )
+df = df.dropna(axis=1, how='all')
+df = df.dropna(how='all')
 
 df2 = pd.read_excel(
     io="mes.xlsx",
