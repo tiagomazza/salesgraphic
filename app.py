@@ -72,8 +72,8 @@ st.sidebar.header("Menu")
 vendedores_disponiveis = df["Vendedor"].dropna().unique()
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=vendedores_disponiveis.unique(),
-    default=vendedores_disponiveis.unique()
+    options=vendedores_disponiveis.tolist(),
+    default=vendedores_disponiveis.tolist()
 )
 
 marca = st.sidebar.multiselect(
