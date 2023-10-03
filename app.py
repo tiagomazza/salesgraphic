@@ -11,7 +11,7 @@ df = pd.read_excel(
     engine="openpyxl",
     sheet_name= "Sheet1",
     skiprows=0,
-    usecols="A:F",
+    usecols="A:AC",
     nrows=8000
 )
 
@@ -20,7 +20,7 @@ df2 = pd.read_excel(
     engine="openpyxl",
     sheet_name= "Sheet1",
     skiprows=0,
-    usecols="A:F",
+    usecols="A:AC",
     nrows=8000
 )
 #valor a ser dividido o anual do ano passado afim de uma média mensal.
