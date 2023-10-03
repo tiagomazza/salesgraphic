@@ -74,8 +74,7 @@ selected_page = st.sidebar.radio("Selecione uma página", ("Página Inicial", "P
 
 # Conteúdo da Página Inicial
 if selected_page == "Página Inicial":
-    st.title("Página Inicial")
-    st.write("Bem-vindo à Página Inicial!")
+    pass
 
 # Conteúdo da Página 1
 elif selected_page == "Página 1":
@@ -201,12 +200,12 @@ st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
 sales_client_per_month = sales_client 
-sales_client_per_month["Valor Líqudo por mês"] = sales_client_per_month["Valor Líqudo"] / fator_de_divisao
+sales_client_per_month["Valor Líquido por mês"] = sales_client_per_month["Valor Líquido"] / fator_de_divisao
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
     y=sales_client_per_month["Cliente"],
-    x=sales_client_per_month["Valor Líqudo por mês"],
+    x=sales_client_per_month["Valor Líquido por mês"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
