@@ -12,7 +12,7 @@ df = pd.read_excel(
     sheet_name= "Sheet1",
     skiprows=0,
     usecols="A:AC",
-    nrows=8000
+    nrows=40000
 )
 
 df2 = pd.read_excel(
@@ -21,7 +21,7 @@ df2 = pd.read_excel(
     sheet_name= "Sheet1",
     skiprows=0,
     usecols="A:AC",
-    nrows=8000
+    nrows=10000
 )
 #valor a ser dividido o anual do ano passado afim de uma média mensal.
 fator_de_divisao = 11
