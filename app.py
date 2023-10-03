@@ -192,7 +192,8 @@ fig.add_trace(go.Bar(
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
-    width=0.5
+    width=0.5,
+    height=len(sales_client) * 40
 ))
 
 fig.add_trace(go.Bar(
@@ -201,7 +202,8 @@ fig.add_trace(go.Bar(
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
-    width=0.5
+    width=0.5,
+    height=len(sales_client) * 40
 ))
 
 fig.update_layout(
