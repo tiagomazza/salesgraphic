@@ -186,8 +186,8 @@ st.plotly_chart(fig_product_client)
 
 data = {
     "Número do Cliente": [1, 2, 3, 4, 5],
-    "Valor A": [15, 15, 15, 15, 15],
-    "Valor B": [5, 10, 15, 20, 25]
+    "Meta": [15, 15, 15, 15, 15],
+    "Valor atual": [5, 10, 15, 20, 25]
 }
 
 df3 = pd.DataFrame(data)
@@ -196,20 +196,20 @@ df3 = pd.DataFrame(data)
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
-    y=df3["Número do Cliente"],
-    x=df3["Valor A"],
-    name="Valor A",
+    y=sales_client["Cliente"],
+    x=sales_client["Valor Líquido Formatado"],
+    name="Meta",
     orientation='h',
-    marker=dict(color='red'),  # Cor invertida para Valor A
+    marker=dict(color='red'),  
     width=0.5,  # Largura uniforme das barras
 ))
 
 fig.add_trace(go.Bar(
-    y=df3["Número do Cliente"],
-    x=df3["Valor B"],
-    name="Valor B",
+    y=sales_client["Cliente"],
+    x=sales_client["Valor Líquido Formatado"],
+    name="Valor atual",
     orientation='h',
-    marker=dict(color='blue'),  # Cor invertida para Valor B
+    marker=dict(color='blue'),  
     width=0.5,  # Largura uniforme das barras
 ))
 
