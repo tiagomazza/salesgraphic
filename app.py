@@ -192,7 +192,7 @@ fig.add_trace(go.Bar(
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
-    width=800,
+    width=0.5, 
     height= altura_desejada
 ))
 
@@ -202,7 +202,7 @@ fig.add_trace(go.Bar(
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
-    width=800,
+    width=0.5,  
     height= altura_desejada
 ))
 
