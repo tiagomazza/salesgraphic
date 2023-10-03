@@ -188,7 +188,7 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(
     y=sales_client["Cliente"],
-    x=sales_client["Valor Líquido Formatado"],
+    x=sales_client["Valor Líquido Formatado"] *1.5,
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
@@ -212,7 +212,7 @@ fig.update_layout(
     yaxis_title="Cliente",
     barmode="overlay",
     width=800,
-    height=len(sales_client) * 20
+    height=len(sales_client) * 15
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
