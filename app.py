@@ -16,7 +16,7 @@ df = pd.read_excel(
 )
 
 df2 = pd.read_excel(
-    io="base.xlsx",
+    io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "Sheet1",
     skiprows=0,
@@ -202,6 +202,10 @@ st.plotly_chart(fig_product_client)
 sales_client_per_month = sales_client 
 sales_client_per_month["Valor Líquido por mês"] = sales_client_per_month["Valor Líquido"] / fator_de_divisao
 fig = go.Figure()
+
+sales_client_actual = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
+sales_client_actual = sales_client_actual.sort_values(by="Valor Líquido", ascending=True)
+sales_client_actual["Valor Líquido Formatado"] = sales_client_actual["Valor Líquido"].apply(formatar_euro)
 
 fig.add_trace(go.Bar(
     y=sales_client_per_month["Cliente"],
