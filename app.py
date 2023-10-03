@@ -69,7 +69,24 @@ df['Vendedor'] = df['Cliente'].str[:4].map(dicionario_clientes)
 
 #side bar
 
-st.sidebar.header("Filtros de análise:")
+st.sidebar.header("Menu")
+
+selected_page = st.sidebar.radio("Selecione uma página", ("Página Inicial", "Página 1", "Página 2"))
+
+# Conteúdo da Página Inicial
+if selected_page == "Página Inicial":
+    st.title("Página Inicial")
+    st.write("Bem-vindo à Página Inicial!")
+
+# Conteúdo da Página 1
+elif selected_page == "Página 1":
+    st.title("Página 1")
+    st.write("Conteúdo da Página 1")
+
+# Conteúdo da Página 2
+elif selected_page == "Página 2":
+    st.title("Página 2")
+    st.write("Conteúdo da Página 2")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
     options=df["Vendedor"].unique(),
