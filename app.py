@@ -4,35 +4,32 @@ import pandas as pd
 import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
-import streamlit as st
 
 df = pd.read_excel(
     io="base.xlsx",
     engine="openpyxl",
     sheet_name= "Sheet1",
     skiprows=0,
-    usecols="A:AC",
-    nrows=40000
+    usecols="A:F",
+    nrows=8000
 )
-df = df.dropna(axis=1, how='all')
-df = df.dropna(how='all')
 
 df2 = pd.read_excel(
-    io="mes.xlsx",
+    io="base.xlsx",
     engine="openpyxl",
     sheet_name= "Sheet1",
     skiprows=0,
-    usecols="A:AC",
-    nrows=10000
+    usecols="A:F",
+    nrows=8000
 )
 #valor a ser dividido o anual do ano passado afim de uma média mensal.
 fator_de_divisao = 11
-
+#funçao de conversao dos clientes no formato 4 digitos
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
 )
-#funçao de conversao dos clientes no formato 4 digitos
+
 def format_string_to_4_digits(input_string):
     parts = input_string.split(".")
     formatted_string = parts[0]
@@ -69,13 +66,13 @@ df['Vendedor'] = df['Cliente'].str[:4].map(dicionario_clientes)
 
 
 
-#---side bar
-st.sidebar.header("Menu")
-vendedores_disponiveis = df["Vendedor"].dropna().unique()
+#side bar
+
+st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=vendedores_disponiveis.tolist(),
-    default=vendedores_disponiveis.tolist()
+    options=df["Vendedor"].unique(),
+    default=df["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
@@ -128,7 +125,7 @@ with right_column:
 st.markdown("---")
 
 # --- sales graphic ---
-altura_desejada_por_cliente = 50  # altura em pixel
+altura_desejada_por_cliente = 50  # Defina a altura desejada por cliente em pixels
 # sales by product line
 df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
 
@@ -179,22 +176,19 @@ fig_product_client = px.bar(
    
 )
 
+#fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
+
 fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 fig_product_client.update_coloraxes(showscale=False)
 st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
-sales_client_per_month = sales_client 
-sales_client_per_month["Valor Líquido por mês"] = sales_client_per_month["Valor Líquido"] / fator_de_divisao
+
 fig = go.Figure()
 
-sales_client_actual = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
-sales_client_actual = sales_client_actual.sort_values(by="Valor Líquido", ascending=True)
-sales_client_actual["Valor Líquido Formatado"] = sales_client_actual["Valor Líquido"].apply(formatar_euro)
-
 fig.add_trace(go.Bar(
-    y=sales_client_per_month["Cliente"],
-    x=sales_client_per_month["Valor Líquido por mês"],
+    y=sales_client["Cliente"],
+    x=sales_client["Valor Líquido Formatado"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
@@ -203,8 +197,8 @@ fig.add_trace(go.Bar(
 ))
 
 fig.add_trace(go.Bar(
-    y=sales_client_actual["Cliente"],
-    x=sales_client_actual["Valor Líquido Formatado"],
+    y=sales_client["Cliente"],
+    x=sales_client["Valor Líquido Formatado"],
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
@@ -218,7 +212,7 @@ fig.update_layout(
     yaxis_title="Cliente",
     barmode="overlay",
     width=800,
-    height=len(sales_client) * 15
+    height=len(sales_client) * 40
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
