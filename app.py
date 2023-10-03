@@ -69,11 +69,11 @@ df['Vendedor'] = df['Cliente'].str[:4].map(dicionario_clientes)
 
 #---side bar
 st.sidebar.header("Menu")
-
+vendedores_disponiveis = df["Vendedor"].dropna().unique()
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
+    options=df["vendedores_disponiveis"].unique(),
+    default=df["vendedores_disponiveis"].unique()
 )
 
 marca = st.sidebar.multiselect(
