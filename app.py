@@ -24,7 +24,7 @@ novos_nomes = {
     'Unnamed: 5': 'DescontoArtigo',
     'Unnamed: 6': 'NomeArtigo',
     'Unnamed: 7': 'ValorArtigo',
-    'Unnamed: 8': 'NomeVendedor',
+    'Unnamed: 8': 'Vendedor',
     'Unnamed: 9': 'CodigoVendedor'
 
 }
@@ -33,17 +33,7 @@ df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
 print(df.columns)
 
-df2 = pd.read_excel(
-    io="base.xlsx",
-    engine="openpyxl",
-    sheet_name= "Sheet1",
-    skiprows=0,
-    usecols="A:F",
-    nrows=8000
-)
-#valor a ser dividido o anual do ano passado afim de uma média mensal.
-fator_de_divisao = 11
-#funçao de conversao dos clientes no formato 4 digitos
+
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
@@ -59,31 +49,15 @@ def format_string_to_4_digits(input_string):
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
 
-df ['Cliente'] = df.apply(lambda row:row['Data'] if row['Artigo'] != '' else None, axis=1)
-df['Cliente'] = pd.to_numeric(df['Cliente'], errors='coerce')
-df['Cliente'] = df['Cliente'].apply(lambda x: x if not pd.isna(x) else np.nan).ffill()
-df['Cliente'] = df['Cliente'].astype(str)
-df = df[~(df['Data'] == 'Total Cliente')]
-df.dropna(subset=['Valor Líquido'], inplace=True)
 df['Data'] = pd.to_datetime(df['Data'])
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
 
-df = df.sort_values(by='Cliente')
+df = df.sort_values(by='NomeCliente')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
 data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
-df['Marca'] = df['Artigo'].str[:3].map(dicionario_fornecedores)
-
-data = pd.read_excel('listagens.xlsx', sheet_name='Clientes')
-
-data.loc[1:, 'Vendedor'] = data['Vendedor'][1:].astype(str)
-data['Cliente'] = data['Cliente'].astype(str).apply(format_string_to_4_digits)
-dicionario_clientes = dict(zip(data['Cliente'], data['Vendedor']))
-df['Cliente'] = df['Cliente'].apply(format_string_to_4_digits)
-df['Vendedor'] = df['Cliente'].str[:4].map(dicionario_clientes)
-
-
+df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 
 #side bar
 
