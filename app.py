@@ -34,26 +34,41 @@ df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
 print(df.columns)
 
+df2 = pd.read_excel(
+    io="ano.xlsx",
+    engine="openpyxl",
+    sheet_name= "mes",
+    skiprows=0,
+    usecols="A:J",
+    nrows=4000
+)
+
+df2= df2.drop(columns=['A. BORGES DO AMARAL, Lda.'])
+
+
+df2.rename(columns=novos_nomes, inplace=True)
+df2 = df2.dropna(subset=['ValorArtigo'])
 
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
 )
 
-
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
-
 #df = df.sort_values(by='Cliente')
+
+df2['Data'] = pd.to_datetime(df2['Data'], format='%d-%m-%Y', errors='coerce')
+df2['Mes_Ano'] = df2['Data'].dt.strftime('%m-%Y')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
 data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
-
+df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 #side bar
 
 st.sidebar.header("Filtros de análise:")
@@ -95,6 +110,10 @@ df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
 df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
+df2 = df2.iloc[1:]
+df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
+df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
+total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
@@ -120,14 +139,18 @@ sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
+# Sales last year
+sales_last = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
+sales_last = sales_last.sort_values(by="ValorArtigo", ascending=True)
+sales_last["ValorArtigo"] = sales_last["ValorArtigo"].apply(formatar_euro)
 
 # -- grafico comparativo --
 
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
-    y=sales_client["Cliente"],
-    x=sales_client["ValorArtigo"],
+    y=sales_last["Cliente"],
+    x=sales_last["ValorArtigo"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
