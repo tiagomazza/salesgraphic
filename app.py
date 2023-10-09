@@ -19,7 +19,7 @@ df= df.drop(columns=['A. BORGES DO AMARAL, Lda.'])
 novos_nomes = {
     'Unnamed: 1': 'Data',
     'Unnamed: 2': 'CodigoCliente',
-    'Unnamed: 3': 'NomeCliente',
+    'Unnamed: 3': 'Cliente',
     'Unnamed: 4': 'DescontoCliente',
     'Unnamed: 5': 'DescontoArtigo',
     'Unnamed: 6': 'NomeArtigo',
