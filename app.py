@@ -95,6 +95,7 @@ st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
 df['ValorArtigo'] = df['ValorArtigo'].fillna(0).astype(float)
+df = df[pd.to_numeric(df['ValorArtigo'], errors='coerce').notnull()]
 total_sales = int(df_selection["ValorArtigo"].sum(skipna=True))
 
 
