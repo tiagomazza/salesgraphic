@@ -27,7 +27,6 @@ novos_nomes = {
     'Unnamed: 7': 'ValorArtigo',
     'Unnamed: 8': 'Vendedor',
     'Unnamed: 9': 'CodigoVendedor'
-
 }
 
 df.rename(columns=novos_nomes, inplace=True)
@@ -45,8 +44,16 @@ df2 = pd.read_excel(
 
 df2= df2.drop(columns=['A. BORGES DO AMARAL, Lda.'])
 
+novos_nomes2 = {
+    'Unnamed: 1': 'Data',
+    'Unnamed: 2': 'CodigoCliente',
+    'Unnamed: 3': 'Cliente',
+    'Unnamed: 4': 'NomeArtigo',
+    'Unnamed: 5': 'ValorArtigo',
+    'Unnamed: 6': 'Vendedor',
+}
 
-df2.rename(columns=novos_nomes, inplace=True)
+df2.rename(columns=novos_nomes2, inplace=True)
 df2 = df2.dropna(subset=['ValorArtigo'])
 
 st.set_page_config(page_title="Sales",
