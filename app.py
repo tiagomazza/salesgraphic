@@ -52,7 +52,7 @@ def formatar_euro(valor):
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
 
-df = df.sort_values(by='NomeCliente')
+df = df.sort_values(by='Cliente')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
 data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
