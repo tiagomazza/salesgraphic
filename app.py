@@ -91,12 +91,11 @@ st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
 df = df.iloc[1:]
-print(df['ValorArtigo'])
+df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
+#soma = df['ValorArtigo'].sum()
+#print(soma)
 
-#df['ValorArtigo'] = df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.').astype(float)
-df['ValorArtigoFloat'] = pd.to_numeric(df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.'), errors='coerce')
-#df['ValorArtigoFloat'] = df['ValorArtigoFloat'].fillna(0)
-total_sales = df_selection["ValorArtigo"].sum(skipna=True)
+#total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 
 
@@ -113,6 +112,8 @@ with right_column:
 
 st.markdown("---")
 
+
+"""""
 # --- sales graphic ---
 
 # Sales by client
@@ -163,4 +164,3 @@ st.plotly_chart(fig)
 
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-"""
