@@ -10,7 +10,7 @@ df = pd.read_excel(
     io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "mes",
-    skiprows=4,
+    skiprows=5,
     usecols="A:J",
     nrows=4000
 )
@@ -23,7 +23,7 @@ novos_nomes = {
     'Valor [Documentos GC Lin]': 'ValorArtigo',
     'Nome [Vendedores]': 'Vendedor'
 }
-
+print(df.columns)
 df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
 
@@ -52,24 +52,24 @@ df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
+    options=df['Vendedor'].nunique(),
+    default=df['Vendedor'].nunique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df["Marca"].unique(),
-    default=df["Marca"].unique()
+    options=df["Marca"].nunique(),
+    default=df["Marca"].nunique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df["Mes_Ano"].unique(),
-    default=df["Mes_Ano"].unique()
+    options=df["Mes_Ano"].nunique(),
+    default=df["Mes_Ano"].nunique()
 )
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df["Cliente"].unique(),
-    default=df["Cliente"].unique()
+    options=df["Cliente"].nunique(),
+    default=df["Cliente"].nunique()
 )
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
