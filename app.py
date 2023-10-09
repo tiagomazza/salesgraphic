@@ -118,62 +118,15 @@ with right_column:
 st.markdown("---")
 
 # --- sales graphic ---
-altura_desejada_por_cliente = 50  # Defina a altura desejada por cliente em pixels
-# sales by product line
-df_selection["Valor Líquido"] = pd.to_numeric(df_selection["Valor Líquido"], errors="coerce")
-
-sales_by_product_line = (
-    df_selection.groupby(by=["Marca"])["Valor Líquido"].sum().reset_index()
-)
-
-sales_by_product_line = sales_by_product_line.sort_values(by="Valor Líquido", ascending=True)
-sales_by_product_line["Valor Líquido Formatado"] = sales_by_product_line["Valor Líquido"].apply(formatar_euro)
-
-fig_product_sales = px.bar(
-    sales_by_product_line,
-    x="Valor Líquido",
-    y="Marca",
-    text="Valor Líquido Formatado",
-    title="Vendas por marca",
-    color="Valor Líquido",
-    color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
-    width=800,
-    height=1200
-)
-
-#fig_product_sales.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-
-fig_product_sales.update_layout(plot_bgcolor="rgba(0,0,0,0)")
-fig_product_sales.update_layout(yaxis_title="Marca", xaxis_title="Valor Líquido")
-fig_product_sales.update_coloraxes(showscale=False)
-st.plotly_chart(fig_product_sales)
 
 # Sales by client
-sales_client = df_selection.groupby(by=["Cliente"])["Valor Líquido"].sum().reset_index()
-sales_client = sales_client.sort_values(by="Valor Líquido", ascending=True)
-sales_client["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
+sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
+sales_client = sales_client.sort_values(by="ValorArtigo", ascending=True)
+sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
-fig_product_client = px.bar(
-    sales_client,
-    x="Valor Líquido",
-    y="Cliente",
-    text="Valor Líquido Formatado",
-    title="Vendas por Cliente",
-    color="Valor Líquido",
-    color_continuous_scale=px.colors.sequential.Plasma,  # Escolha uma escala de cores
-    width=800,
-    height= altura_desejada
-   
-)
-
-#fig_product_client.update_traces(marker=dict(line=dict(width=2, color='DarkSlateGrey')))  # Adicione uma borda às barras
-
-fig_product_client.update_layout(plot_bgcolor="rgba(0,0,0,0)")
-fig_product_client.update_coloraxes(showscale=False)
-st.plotly_chart(fig_product_client)
 
 # -- grafico comparativo --
 
@@ -181,7 +134,7 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(
     y=sales_client["Cliente"],
-    x=sales_client["Valor Líquido Formatado"],
+    x=sales_client["ValorArtigo"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
@@ -191,7 +144,7 @@ fig.add_trace(go.Bar(
 
 fig.add_trace(go.Bar(
     y=sales_client["Cliente"],
-    x=sales_client["Valor Líquido Formatado"],
+    x=sales_client["ValorArtigo"],
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
