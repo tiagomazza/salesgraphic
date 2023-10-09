@@ -5,11 +5,12 @@ import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
 
+
 df = pd.read_excel(
     io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "mes",
-    skiprows=0,
+    skiprows=6,
     usecols="A:J",
     nrows=4000
 )
@@ -29,6 +30,7 @@ novos_nomes = {
 
 }
 
+
 df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
 print(df.columns)
@@ -39,12 +41,6 @@ st.set_page_config(page_title="Sales",
                    layout="wide"
 )
 
-def format_string_to_4_digits(input_string):
-    parts = input_string.split(".")
-    formatted_string = parts[0]
-    while len(formatted_string) < 4:
-        formatted_string = "0" + formatted_string
-    return formatted_string
 
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
@@ -87,6 +83,8 @@ cliente = st.sidebar.multiselect(
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
+data_type = df['ValorArtigo'].dtypes
+print(data_type)
 
 # --- MAINPAGE ---
 
@@ -94,19 +92,11 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
-def try_convert_to_float(value):
-    try:
-        return float(value)
-    except (ValueError, TypeError):
-        return 0.0  # Ou outro valor padrão adequado
-
-df_selection['ValorArtigo'] = df_selection['ValorArtigo'].fillna(0).astype(float)
-df['ValorArtigo'] = df['ValorArtigo'].apply(try_convert_to_float)
-df['ValorArtigo'] = df['ValorArtigo'].fillna(0).astype(float)
-df = df[pd.to_numeric(df['ValorArtigo'], errors='coerce').notnull()]
+print(df["ValorArtigo"])
 total_sales = float(df_selection["ValorArtigo"].sum(skipna=True))
 
 
+"""""
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
     st.subheader("Total de vendas:")
@@ -166,9 +156,7 @@ fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
 st.plotly_chart(fig)
 
-hide_st_style = """
-    <style>
-    footer {visibility: hidden;}
-    </style>
-    """
+
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+"""
