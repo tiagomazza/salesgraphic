@@ -92,12 +92,8 @@ st.markdown("##")
 
 df = df.iloc[1:]
 df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
-#soma = df['ValorArtigo'].sum()
-#print(soma)
-
-#total_sales = df_selection["ValorArtigo"].sum(skipna=True)
-
-
+df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
+total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 """""
 left_column, middle_column, right_column = st.columns(3)
@@ -120,7 +116,7 @@ st.markdown("---")
 sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
 sales_client = sales_client.sort_values(by="ValorArtigo", ascending=True)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
-
+"""""
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
@@ -164,3 +160,4 @@ st.plotly_chart(fig)
 
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+"""""
