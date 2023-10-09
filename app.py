@@ -10,27 +10,36 @@ df = pd.read_excel(
     io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "mes",
-    skiprows=5,
+    skiprows=0,
     usecols="A:J",
     nrows=4000
 )
 
+df= df.drop(columns=['A. BORGES DO AMARAL, Lda.'])
+
 novos_nomes = {
-    'Data': 'Data',
-    'Terceiro': 'CodigoCliente',
-    'Nome [Clientes]': 'Cliente',
-    'Artigo [Documentos GC Lin]': 'NomeArtigo',
-    'Valor [Documentos GC Lin]': 'ValorArtigo',
-    'Nome [Vendedores]': 'Vendedor'
+    'Unnamed: 1': 'Data',
+    'Unnamed: 2': 'CodigoCliente',
+    'Unnamed: 3': 'Cliente',
+    'Unnamed: 4': 'DescontoCliente',
+    'Unnamed: 5': 'DescontoArtigo',
+    'Unnamed: 6': 'NomeArtigo',
+    'Unnamed: 7': 'ValorArtigo',
+    'Unnamed: 8': 'Vendedor',
+    'Unnamed: 9': 'CodigoVendedor'
+
 }
-print(df.columns)
+
 df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
+print(df.columns)
+
 
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
 )
+
 
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
@@ -38,10 +47,7 @@ def formatar_euro(valor):
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
 
-df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.'), errors='coerce')
-df['ValorArtigo'] = df['ValorArtigo'].fillna(0)
-
-df = df.sort_values(by='Cliente')
+#df = df.sort_values(by='Cliente')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
 data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
@@ -49,31 +55,34 @@ dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 
 #side bar
+
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df['Vendedor'].nunique(),
-    default=df['Vendedor'].nunique()
+    options=df["Vendedor"].unique(),
+    default=df["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df["Marca"].nunique(),
-    default=df["Marca"].nunique()
+    options=df["Marca"].unique(),
+    default=df["Marca"].unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df["Mes_Ano"].nunique(),
-    default=df["Mes_Ano"].nunique()
+    options=df["Mes_Ano"].unique(),
+    default=df["Mes_Ano"].unique()
 )
+
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df["Cliente"].nunique(),
-    default=df["Cliente"].nunique()
+    options=df["Cliente"].unique(),
+    default=df["Cliente"].unique()
 )
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
+
 
 # --- MAINPAGE ---
 
@@ -81,8 +90,14 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
-print(df["ValorArtigo"])
-total_sales = float(df_selection["ValorArtigo"].sum(skipna=True))
+df = df.iloc[1:]
+print(df['ValorArtigo'])
+
+#df['ValorArtigo'] = df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.').astype(float)
+df['ValorArtigoFloat'] = pd.to_numeric(df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.'), errors='coerce')
+#df['ValorArtigoFloat'] = df['ValorArtigoFloat'].fillna(0)
+total_sales = df_selection["ValorArtigo"].sum(skipna=True)
+
 
 
 """""
