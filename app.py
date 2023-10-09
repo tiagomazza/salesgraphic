@@ -96,10 +96,8 @@ st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
 
-total_sales = int(df_selection["ValorArtigo"].sum())
-#average_reating = round(df_selection["Valor Líquido"].mean(),1)
-#star_rating = ":star:" * int(round(average_reating, 0))
-#average_sales_by_transaction = round(df_selection["Valor Líquido"].mean(),2)
+total_sales = int(df_selection["ValorArtigo"].sum(skipna=True))
+
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
