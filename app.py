@@ -95,7 +95,7 @@ df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
 df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
-"""""
+
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
     st.subheader("Total de vendas:")
@@ -109,7 +109,7 @@ with right_column:
 st.markdown("---")
 
 
-"""""
+
 # --- sales graphic ---
 
 # Sales by client
