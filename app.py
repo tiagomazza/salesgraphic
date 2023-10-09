@@ -38,7 +38,7 @@ df2 = pd.read_excel(
     engine="openpyxl",
     sheet_name= "2022",
     skiprows=0,
-    usecols="A:J",
+    usecols="A:G",
     nrows=4000
 )
 
