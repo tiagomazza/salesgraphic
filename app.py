@@ -94,8 +94,15 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
+def try_convert_to_float(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0  # Ou outro valor padrão adequado
 
-
+df['ValorArtigo'] = df['ValorArtigo'].apply(try_convert_to_float)
+df['ValorArtigo'] = df['ValorArtigo'].fillna(0).astype(float)
+df = df[pd.to_numeric(df['ValorArtigo'], errors='coerce').notnull()]
 total_sales = float(df_selection["ValorArtigo"].sum(skipna=True))
 
 
