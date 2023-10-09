@@ -5,14 +5,27 @@ import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
 
-df = pd.read_excel(
-    io="ano.xlsx",
-    engine="openpyxl",
-    sheet_name= "Sheet1",
-    skiprows=0,
-    usecols="A:F",
-    nrows=8000
-)
+caminho_arquivo_xls = 'mes.xls'
+df = pd.read_excel(caminho_arquivo_xls)
+
+df= df.drop(columns=['A. BORGES DO AMARAL, Lda.'])
+
+novos_nomes = {
+    'Unnamed: 1': 'Data',
+    'Unnamed: 2': 'CodigoCliente',
+    'Unnamed: 3': 'NomeCliente',
+    'Unnamed: 4': 'DescontoCliente',
+    'Unnamed: 5': 'DescontoArtigo',
+    'Unnamed: 6': 'NomeArtigo',
+    'Unnamed: 7': 'ValorArtigo',
+    'Unnamed: 8': 'NomeVendedor',
+    'Unnamed: 9': 'CodigoVendedor'
+
+}
+
+df.rename(columns=novos_nomes, inplace=True)
+df = df.dropna(subset=['ValorArtigo'])
+print(df.columns)
 
 df2 = pd.read_excel(
     io="base.xlsx",
