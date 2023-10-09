@@ -147,7 +147,7 @@ altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixe
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
 # Sales last year
-sales_last = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
+sales_last = df2.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
 sales_last = sales_last.sort_values(by="ValorArtigo", ascending=True)
 sales_last["ValorArtigo"] = sales_last["ValorArtigo"].apply(formatar_euro)
 
