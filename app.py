@@ -25,7 +25,6 @@ novos_nomes = {
 }
 
 df.rename(columns=novos_nomes, inplace=True)
-print(df.columns)
 df = df.dropna(subset=['ValorArtigo'])
 
 st.set_page_config(page_title="Sales",
@@ -53,24 +52,24 @@ df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
+    options=df["Vendedor"].drop_duplicates().unique(),
+    default=df["Vendedor"].drop_duplicates().unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df["Marca"].unique(),
-    default=df["Marca"].unique()
+    options=df["Marca"].drop_duplicates().unique(),
+    default=df["Marca"].drop_duplicates().unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df["Mes_Ano"].unique(),
-    default=df["Mes_Ano"].unique()
+    options=df["Mes_Ano"].drop_duplicates().unique(),
+    default=df["Mes_Ano"].drop_duplicates().unique()
 )
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df["Cliente"].unique(),
-    default=df["Cliente"].unique()
+    options=df["Cliente"].drop_duplicates().unique(),
+    default=df["Cliente"].drop_duplicates().unique()
 )
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
