@@ -94,6 +94,13 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
+def try_convert_to_float(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return 0.0  # Ou outro valor padrão adequado
+
+df['ValorArtigo'] = df['ValorArtigo'].apply(try_convert_to_float)
 df['ValorArtigo'] = df['ValorArtigo'].fillna(0).astype(float)
 df = df[pd.to_numeric(df['ValorArtigo'], errors='coerce').notnull()]
 total_sales = int(df_selection["ValorArtigo"].sum(skipna=True))
@@ -164,8 +171,3 @@ hide_st_style = """
     </style>
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-
-valores_nao_numericos = df['ValorArtigo'][pd.to_numeric(df['ValorArtigo'], errors='coerce').isna()].unique()
-
-# Exiba os valores não numéricos
-print(valores_nao_numericos)
