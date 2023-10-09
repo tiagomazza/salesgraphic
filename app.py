@@ -77,7 +77,6 @@ mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
     options=df["Mes_Ano"].unique(),
     default=df["Mes_Ano"].unique()
-
 )
 
 cliente = st.sidebar.multiselect(
@@ -95,7 +94,7 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
-
+df['ValorArtigo'] = df['ValorArtigo'].astype(int)
 total_sales = int(df_selection["ValorArtigo"].sum(skipna=True))
 
 
@@ -104,14 +103,10 @@ with left_column:
     st.subheader("Total de vendas:")
     st.subheader(f"{total_sales:,.2f}€")
 
-#with middle_column:
- #   st.subheader("Avaliações:")
- #   st.subheader(f"{average_reating} {star_rating}")
 
 
 with right_column:
     st.subheader("")
- #   st.subheader(f"€{average_sales_by_transaction:,}")
 
 st.markdown("---")
 
@@ -168,3 +163,4 @@ hide_st_style = """
     </style>
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
