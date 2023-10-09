@@ -100,6 +100,7 @@ def try_convert_to_float(value):
     except (ValueError, TypeError):
         return 0.0  # Ou outro valor padrão adequado
 
+df_selection['ValorArtigo'] = df_selection['ValorArtigo'].fillna(0).astype(float)
 df['ValorArtigo'] = df['ValorArtigo'].apply(try_convert_to_float)
 df['ValorArtigo'] = df['ValorArtigo'].fillna(0).astype(float)
 df = df[pd.to_numeric(df['ValorArtigo'], errors='coerce').notnull()]
