@@ -116,7 +116,7 @@ st.markdown("---")
 sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
 sales_client = sales_client.sort_values(by="ValorArtigo", ascending=True)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
-"""""
+
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
 
@@ -157,7 +157,9 @@ fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
 st.plotly_chart(fig)
 
-
+hide_st_style = """
+    <style>
+    footer {visibility: hidden;}
+    </style>
+    """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-
-"""""
