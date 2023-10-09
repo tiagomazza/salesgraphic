@@ -15,8 +15,6 @@ df = pd.read_excel(
     nrows=4000
 )
 
-df= df.drop(columns=['A. BORGES DO AMARAL, Lda.'])
-
 novos_nomes = {
     'Unnamed: 1': 'Data',
     'Unnamed: 2': 'CodigoCliente',
