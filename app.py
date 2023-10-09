@@ -5,8 +5,14 @@ import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
 
-caminho_arquivo_xls = 'mes.xls'
-df = pd.read_excel(caminho_arquivo_xls)
+df = pd.read_excel(
+    io="mes.xlsx",
+    engine="openpyxl",
+    sheet_name= "mes",
+    skiprows=0,
+    usecols="A:J",
+    nrows=4000
+)
 
 df= df.drop(columns=['A. BORGES DO AMARAL, Lda.'])
 
