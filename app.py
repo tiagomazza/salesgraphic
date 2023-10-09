@@ -49,6 +49,9 @@ def format_string_to_4_digits(input_string):
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
 
+df['Data'] = pd.to_datetime(df['Data'])
+df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
+
 df = df.sort_values(by='NomeCliente')
 
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
