@@ -94,7 +94,7 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
-df['ValorArtigo'] = df['ValorArtigo'].astype(int)
+df['ValorArtigo'] = df['ValorArtigo'].astype(float)
 total_sales = int(df_selection["ValorArtigo"].sum(skipna=True))
 
 
