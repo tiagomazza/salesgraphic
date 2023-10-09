@@ -10,7 +10,7 @@ df = pd.read_excel(
     io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "mes",
-    skiprows=5,
+    skiprows=4,
     usecols="A:J",
     nrows=4000
 )
