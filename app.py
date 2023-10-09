@@ -10,41 +10,37 @@ df = pd.read_excel(
     io="mes.xlsx",
     engine="openpyxl",
     sheet_name= "mes",
-    skiprows=6,
+    skiprows=5,
     usecols="A:J",
     nrows=4000
 )
 
 novos_nomes = {
-    'Unnamed: 1': 'Data',
-    'Unnamed: 2': 'CodigoCliente',
-    'Unnamed: 3': 'Cliente',
-    'Unnamed: 4': 'DescontoCliente',
-    'Unnamed: 5': 'DescontoArtigo',
-    'Unnamed: 6': 'NomeArtigo',
-    'Unnamed: 7': 'ValorArtigo',
-    'Unnamed: 8': 'Vendedor',
-    'Unnamed: 9': 'CodigoVendedor'
-
+    'Data': 'Data',
+    'Terceiro': 'CodigoCliente',
+    'Nome [Clientes]': 'Cliente',
+    'Artigo [Documentos GC Lin]': 'NomeArtigo',
+    'Valor [Documentos GC Lin]': 'ValorArtigo',
+    'Nome [Vendedores]': 'Vendedor'
 }
 
-
 df.rename(columns=novos_nomes, inplace=True)
-df = df.dropna(subset=['ValorArtigo'])
 print(df.columns)
-
+df = df.dropna(subset=['ValorArtigo'])
 
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
                    layout="wide"
 )
 
-
 def formatar_euro(valor):
     return '{:,.2f}€'.format(valor)
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
+
+df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'].str.replace('\xa0', '').str.replace(',', '.'), errors='coerce')
+df['ValorArtigo'] = df['ValorArtigo'].fillna(0)
 
 df = df.sort_values(by='Cliente')
 
@@ -54,7 +50,6 @@ dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 
 #side bar
-
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
@@ -72,7 +67,6 @@ mes_Ano = st.sidebar.multiselect(
     options=df["Mes_Ano"].unique(),
     default=df["Mes_Ano"].unique()
 )
-
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
     options=df["Cliente"].unique(),
@@ -81,8 +75,6 @@ cliente = st.sidebar.multiselect(
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
-data_type = df['ValorArtigo'].dtypes
-print(data_type)
 
 # --- MAINPAGE ---
 
