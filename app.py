@@ -165,3 +165,7 @@ hide_st_style = """
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+valores_nao_numericos = df['ValorArtigo'][pd.to_numeric(df['ValorArtigo'], errors='coerce').isna()].unique()
+
+# Exiba os valores não numéricos
+print(valores_nao_numericos)
