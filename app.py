@@ -196,7 +196,7 @@ fig.update_layout(
     yaxis_title="Cliente",
     barmode="overlay",
     width=1000,
-    height=len(sales_client) * 50
+    height=len(sales_last) * 30
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
