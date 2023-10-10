@@ -82,7 +82,7 @@ df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 df2 = df2.iloc[1:]
 df2 = df2.reset_index(drop=True)
 print(df2['ValorArtigo'])
-df2['ValorArtigo'] = df2['ValorArtigo'].astype(int) 
+df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
 df2['ValorArtigo'] = df2['ValorArtigo']/ coeficienteDeDivisao
 df3 = df2["Cliente"]
 df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
