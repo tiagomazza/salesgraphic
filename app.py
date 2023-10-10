@@ -40,7 +40,7 @@ df2 = pd.read_excel(
     sheet_name= "2022",
     skiprows=0,
     usecols="A:G",
-    nrows=4000
+    nrows=40000
 )
 
 df2= df2.drop(columns=['A. BORGES DO AMARAL, Lda.'])
@@ -195,7 +195,7 @@ fig.update_layout(
     xaxis_title="Valores",
     yaxis_title="Cliente",
     barmode="overlay",
-    width=800,
+    width=1000,
     height=len(sales_client) * 50
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
