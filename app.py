@@ -195,12 +195,11 @@ fig.add_trace(go.Bar(
     width=0.5
     
 ))
-
 fig.update_layout(
     title="Gráfico de Barras Sobreposto Horizontal",
     xaxis_title="Valores",
     yaxis_title="Cliente",
-    barmode="overlay",
+    barmode="stack",
     width=1000,
     height=len(sales_last) * 20
 )
