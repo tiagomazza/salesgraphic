@@ -5,6 +5,7 @@ import numpy as np
 from dateutil import parser
 import plotly.graph_objects as go
 
+coeficienteDeDivisao = 11
 
 df = pd.read_excel(
     io="mes.xlsx",
@@ -66,7 +67,7 @@ def formatar_euro(valor):
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
-#df = df.sort_values(by='Cliente')
+df = df.sort_values(by='Cliente')
 
 df2['Data'] = pd.to_datetime(df2['Data'], format='%d-%m-%Y', errors='coerce')
 df2['Mes_Ano'] = df2['Data'].dt.strftime('%m-%Y')
@@ -76,35 +77,47 @@ data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
+
+
+df2 = df2.iloc[1:]
+df2 = df2.reset_index(drop=True)
+print(df2['ValorArtigo'])
+#df2['ValorArtigo'] = df2['ValorArtigo'] / coeficienteDeDivisao
+df3 = df2["Cliente"]
+df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
+
+
 #side bar
 
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df2["Vendedor"].unique(),
-    default=df2["Vendedor"].unique()
+    options=df["Vendedor"].unique(),
+    default=df["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df2["Marca"].unique(),
-    default=df2["Marca"].unique()
+    options=df["Marca"].unique(),
+    default=df["Marca"].unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df2["Mes_Ano"].unique(),
-    default=df2["Mes_Ano"].unique()
+    options=df["Mes_Ano"].unique(),
+    default=df["Mes_Ano"].unique()
 )
 
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df2["Cliente"].unique(),
-    default=df2["Cliente"].unique()
+    options=df["Cliente"].unique(),
+    default=df["Cliente"].unique()
 )
-df_selection =df2.query(
+df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
 
+#merged_df = df.merge(df2, on='Cliene', how='outer')
+#merged_df['Valor2'].fillna('Valor Padrão', inplace=True)
 
 # --- MAINPAGE ---
 
