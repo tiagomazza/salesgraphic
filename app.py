@@ -32,7 +32,6 @@ novos_nomes = {
 
 df.rename(columns=novos_nomes, inplace=True)
 df = df.dropna(subset=['ValorArtigo'])
-print(df.columns)
 
 df2 = pd.read_excel(
     io="2022.xlsx",
@@ -81,15 +80,24 @@ dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 
-
+def converter_para_numero(valor_str):
+    partes = valor_str.split(" ")
+    valor_sem_espaco = "".join(partes)
+    try:
+        return float(valor_sem_espaco)
+    except ValueError:
+        return None
+    
 df2 = df2.iloc[1:]
 df2 = df2.reset_index(drop=True)
+df['ValorArtigo'] = df['ValorArtigo'].astype(str)
+df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 print(df2['ValorArtigo'])
-df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
-df2['ValorArtigo'] = df2['ValorArtigo']/ coeficienteDeDivisao
+#df2['ValorArtigo'] = df['ValorArtigo'].astype(float)
+#df2['ValorArtigo'] = df2['ValorArtigo'] / coeficienteDeDivisao
 df3 = df2["Cliente"]
 df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
-
+print(df2['ValorArtigo'])
 
 #side bar
 
@@ -119,9 +127,6 @@ cliente = st.sidebar.multiselect(
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
-
-#merged_df = df.merge(df2, on='Cliene', how='outer')
-#merged_df['Valor2'].fillna('Valor Padrão', inplace=True)
 
 # --- MAINPAGE ---
 
