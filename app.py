@@ -154,7 +154,7 @@ st.markdown("---")
 
 # Sales by client
 sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
-sales_client = sales_client.sort_values(by="ValorArtigo", ascending=True)
+sales_client = sales_client.sort_values(by="ValorArtigo", ascending=False)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 sales_client = sales_client[::-1]
 
