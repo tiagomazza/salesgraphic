@@ -157,7 +157,6 @@ sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_i
 sales_client = sales_client.sort_values(by="ValorArtigo", ascending=True)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 sales_client = sales_client[::-1]
-sales_client = sales_client[sales_client["ValorArtigo"] > 0]
 
 altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
