@@ -165,7 +165,7 @@ altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # D
 sales_last = df2.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
 sales_last = sales_last.sort_values(by="ValorArtigo", ascending=True)
 sales_last["ValorArtigo"] = sales_last["ValorArtigo"].apply(formatar_euro)
-
+sales_last["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
 # -- grafico comparativo --
 
 fig = go.Figure()
@@ -173,6 +173,7 @@ fig = go.Figure()
 fig.add_trace(go.Bar(
     y=sales_last["Cliente"],
     x=sales_last["ValorArtigo"],
+    text="Valor Líquido Formatado",
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
@@ -196,7 +197,7 @@ fig.update_layout(
     yaxis_title="Cliente",
     barmode="overlay",
     width=1000,
-    height=len(sales_last) * 30
+    height=len(sales_last) * 20
 )
 fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
 
