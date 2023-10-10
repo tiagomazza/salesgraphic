@@ -81,27 +81,27 @@ df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
+    options=df2["Vendedor"].unique(),
+    default=df2["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df["Marca"].unique(),
-    default=df["Marca"].unique()
+    options=df2["Marca"].unique(),
+    default=df2["Marca"].unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df["Mes_Ano"].unique(),
-    default=df["Mes_Ano"].unique()
+    options=df2["Mes_Ano"].unique(),
+    default=df2["Mes_Ano"].unique()
 )
 
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df["Cliente"].unique(),
-    default=df["Cliente"].unique()
+    options=df2["Cliente"].unique(),
+    default=df2["Cliente"].unique()
 )
-df_selection =df.query(
+df_selection =df2.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
 
