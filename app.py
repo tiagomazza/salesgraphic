@@ -97,7 +97,7 @@ print(df2['ValorArtigo'])
 #df2['ValorArtigo'] = df2['ValorArtigo'] / coeficienteDeDivisao
 df3 = df2["Cliente"]
 df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
-print(df2['ValorArtigo'])
+
 
 #side bar
 
@@ -218,3 +218,5 @@ hide_st_style = """
     </style>
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+print(df2['ValorArtigo'])
