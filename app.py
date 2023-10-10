@@ -165,8 +165,9 @@ altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # D
 sales_last = df2.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
 sales_last = sales_last.sort_values(by="ValorArtigo", ascending=True)
 sales_last["ValorArtigo"] = sales_last["ValorArtigo"].apply(formatar_euro)
-sales_last["Valor Líquido"] = sales_last["ValorArtigo"] / coeficienteDeDivisao
+sales_last["Valor Líquido"] = sales_last["ValorArtigo"].apply(lambda x: x / coeficienteDeDivisao if (isinstance(x, (int, float)) and coeficienteDeDivisao != 0) else x)
 sales_last["Valor Líquido Formatado"] = sales_last["Valor Líquido"].apply(formatar_euro)
+
 # -- grafico comparativo --
 
 fig = go.Figure()
