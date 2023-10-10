@@ -173,7 +173,7 @@ fig = go.Figure()
 fig.add_trace(go.Bar(
     y=sales_last["Cliente"],
     x=sales_last["ValorArtigo"],
-    text="Valor Líquido Formatado",
+    text=sales_last["Valor Líquido Formatado"],
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
