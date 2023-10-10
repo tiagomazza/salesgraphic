@@ -63,7 +63,10 @@ st.set_page_config(page_title="Sales",
 )
 
 def formatar_euro(valor):
-    return '{:,.2f}€'.format(valor)
+    if isinstance(valor, (int, float)):
+        return '{:,.2f}€'.format(valor)
+    else:
+        return str(valor)  
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
