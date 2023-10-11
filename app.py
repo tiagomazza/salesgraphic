@@ -129,7 +129,6 @@ df_selection =df.query(
 
 # --- MAINPAGE ---
 
-
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
@@ -138,16 +137,10 @@ df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
-#bug
-print(df2['ValorArtigo'])
 df2 = df2.iloc[1:]
-#df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'])
-#df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
 df2['ValorArtigo'] = df2['ValorArtigo'].astype(str)
 df2['ValorArtigo'] = df2['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
-print(df2['ValorArtigo'])
-#bug
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
@@ -155,13 +148,10 @@ with left_column:
     st.subheader(f"{total_sales:,.2f}€")
 
 
-
 with right_column:
     st.subheader("")
 
 st.markdown("---")
-
-
 
 # --- sales graphic ---
 
@@ -203,13 +193,13 @@ fig.add_trace(go.Bar(
     orientation='h',
     marker=dict(color='blue'),  
     width=0.5
-    
 ))
+
 fig.update_layout(
     title="Gráfico de Barras Sobreposto Horizontal",
     xaxis_title="Valores",
     yaxis_title="Cliente",
-    barmode="stack",
+    barmode="overlay",
     width=1000,
     height=len(sales_last) * 20
 )
