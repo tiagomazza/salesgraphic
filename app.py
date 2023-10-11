@@ -192,12 +192,12 @@ fig.add_trace(go.Bar(
     orientation='h',
     marker=dict(color='red'),  
     width=0.5
-
 ))
 
 fig.add_trace(go.Bar(
     y=sales_client["Cliente"],
     x=sales_client["ValorArtigo"],
+      text=sales_last["Valor Líquido Formatado"], 
     name="Valor atual",
     orientation='h',
     marker=dict(color='blue'),  
