@@ -169,7 +169,7 @@ sales_client = df_selection.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_i
 sales_client = sales_client.sort_values(by="ValorArtigo", ascending=False)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 sales_client = sales_client[::-1]
-sales_client["Valor Líquido Formatado"] = sales_client["Valor Líquido"].apply(formatar_euro)
+sales_client["Valor Líquido Formatado"] = sales_client["ValorArtigo"].apply(formatar_euro)
 
 altura_desejada_por_cliente = 20  
 altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  
