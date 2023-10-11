@@ -48,13 +48,13 @@ novos_nomes2 = {
     'Unnamed: 1': 'Data',
     'Unnamed: 2': 'CodigoCliente',
     'Unnamed: 3': 'Cliente',
-    'Unnamed: 4': 'NomeArtigo',
-    'Unnamed: 5': 'ValorArtigo',
+    'Unnamed: 4': 'NomeArtigoLY',
+    'Unnamed: 5': 'ValorArtigoLY',
     'Unnamed: 6': 'Vendedor',
 }
 
 df2.rename(columns=novos_nomes2, inplace=True)
-df2 = df2.dropna(subset=['ValorArtigo'])
+df2 = df2.dropna(subset=['ValorArtigoLY'])
 
 st.set_page_config(page_title="Sales",
                    page_icon=":bar_chart:",
@@ -80,26 +80,20 @@ def formatar_euro(valor):
     else:
         return str(valor)  
 
-
+df = pd.concat([df, df2], join="outer", ignore_index=True)
 df = df.iloc[1:]
-print(df["ValorArtigo"])
 
 df['ValorArtigo'] = df['ValorArtigo'].apply(limpar_e_converter)
-df2['ValorArtigo'] = df2['ValorArtigo'].apply(limpar_e_converter)
-print(df["ValorArtigo"])
+df['ValorArtigoLY'] = df2['ValorArtigoLY'].apply(limpar_e_converter)
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
 df = df.sort_values(by='Cliente')
 
-df2['Data'] = pd.to_datetime(df2['Data'], format='%d-%m-%Y', errors='coerce')
-df2['Mes_Ano'] = df2['Data'].dt.strftime('%m-%Y')
-
 data = pd.read_excel('listagens.xlsx', sheet_name='Fornecedores')
 data.loc[1:, 'Artigo'] = data['Artigo'][1:].astype(str)
 dicionario_fornecedores = dict(zip(data['Artigo'], data['Fornecedor']))
 df['Marca'] = df['NomeArtigo'].str[:3].map(dicionario_fornecedores)
-df2['Marca'] = df2['NomeArtigo'].str[:3].map(dicionario_fornecedores)
 
 def converter_para_numero(valor_str):
     partes = valor_str.split(" ")
@@ -108,39 +102,34 @@ def converter_para_numero(valor_str):
         return float(valor_sem_espaco)
     except ValueError:
         return None
-    
-df2 = df2.iloc[1:]
-df2 = df2.reset_index(drop=True)
-
 
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
 #side bar
-combined_df = pd.concat([df, df2])
 
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=combined_df["Vendedor"].unique(),
-    default=combined_df["Vendedor"].unique()
+    options=df["Vendedor"].unique(),
+    default=df["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=combined_df["Marca"].unique(),
-    default=combined_df["Marca"].unique()
+    options=df["Marca"].unique(),
+    default=df["Marca"].unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=combined_df["Mes_Ano"].unique(),
-    default=combined_df["Mes_Ano"].unique()
+    options=df["Mes_Ano"].unique(),
+    default=df["Mes_Ano"].unique()
 )
 
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=combined_df["Cliente"].unique(),
-    default=combined_df["Cliente"].unique()
+    options=df["Cliente"].unique(),
+    default=df["Cliente"].unique()
 )
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
@@ -157,11 +146,9 @@ df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
+df['ValorArtigoLY'] = df['ValorArtigoLY'].astype(str)
+df['ValorArtigoLY'] = df['ValorArtigoLY'].apply(converter_para_numero)
 
-df2 = df2.iloc[1:]
-df2['ValorArtigo'] = df2['ValorArtigo'].astype(str)
-df2['ValorArtigo'] = df2['ValorArtigo'].apply(converter_para_numero)
-total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
@@ -182,15 +169,15 @@ sales_client = sales_client.sort_values(by="ValorArtigo", ascending=False)
 sales_client["ValorArtigo"] = sales_client["ValorArtigo"].apply(formatar_euro)
 sales_client = sales_client[::-1]
 
-altura_desejada_por_cliente = 20  # Defina a altura desejada por cliente em pixels
-altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  # Defina uma altura mínima
+altura_desejada_por_cliente = 20  
+altura_desejada = max(len(sales_client) * altura_desejada_por_cliente, 400)  
 
 # Sales last year
-sales_last = df2.groupby(by=["Cliente"])["ValorArtigo"].sum().reset_index()
-sales_last = sales_last.sort_values(by="ValorArtigo", ascending=True)
-sales_last["ValorArtigo"] = sales_last["ValorArtigo"].apply(formatar_euro)
-sales_last["Valor Líquido"] = sales_last["ValorArtigo"].apply(lambda x: x / coeficienteDeDivisao if (isinstance(x, (int, float)) and coeficienteDeDivisao != 0) else x)
-sales_last["Valor Líquido Formatado"] = sales_last["Valor Líquido"].apply(formatar_euro)
+sales_last = df.groupby(by=["Cliente"])["ValorArtigoLY"].sum().reset_index()
+sales_last = sales_last.sort_values(by="ValorArtigoLY", ascending=True)
+sales_last["ValorArtigoLY"] = sales_last["ValorArtigoLY"].apply(formatar_euro)
+sales_last["Valor LíquidoLY"] = sales_last["ValorArtigoLY"].apply(lambda x: x / coeficienteDeDivisao if (isinstance(x, (int, float)) and coeficienteDeDivisao != 0) else x)
+sales_last["Valor Líquido FormatadoLY"] = sales_last["Valor LíquidoLY"].apply(formatar_euro)
 
 # -- grafico comparativo --
 
@@ -198,8 +185,8 @@ fig = go.Figure()
 
 fig.add_trace(go.Bar(
     y=sales_last["Cliente"],
-    x=sales_last["ValorArtigo"],
-    text=sales_last["Valor Líquido Formatado"], 
+    x=sales_last["ValorArtigoLY"],
+    text=sales_last["Valor Líquido FormatadoLY"], 
     name="Meta",
     orientation='h',
     marker=dict(color='red'),  
@@ -217,7 +204,7 @@ fig.add_trace(go.Bar(
 ))
 
 fig.update_layout(
-    title="Gráfico de Barras Sobreposto Horizontal",
+    title="Comparativo de vendas",
     xaxis_title="Valores",
     yaxis_title="Cliente",
     barmode="overlay",
@@ -235,6 +222,3 @@ hide_st_style = """
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
-print(valores_desejados)
-print("Fim do codigo")
