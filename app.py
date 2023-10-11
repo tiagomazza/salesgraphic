@@ -90,13 +90,15 @@ def converter_para_numero(valor_str):
     
 df2 = df2.iloc[1:]
 df2 = df2.reset_index(drop=True)
+
+
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
+print(df["ValorArtigo"])
 
-
-df3 = df2["Cliente"]
-df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
-
+#df3 = df2["Cliente"]
+#df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
+print(df["ValorArtigo"])
 
 #side bar
 
@@ -132,10 +134,12 @@ df_selection =df.query(
 st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
+
 df = df.iloc[1:]
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
+
 
 df2 = df2.iloc[1:]
 df2['ValorArtigo'] = df2['ValorArtigo'].astype(str)
@@ -213,5 +217,8 @@ hide_st_style = """
     </style>
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
+
+#valor_desejado = df[df["OutraColuna"] == "Alvo"]["MinhaColuna"].values[0]
 
 print("Fim do codigo")
