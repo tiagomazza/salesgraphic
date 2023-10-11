@@ -132,9 +132,17 @@ cliente = st.sidebar.multiselect(
     options=df["Cliente"].unique(),
     default=df["Cliente"].unique()
 )
-df_selection =df.query(
-    "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
-)
+df_selection = df[
+    (df["Vendedor"].isin(vendedor)) &
+    (df["Marca"].isin(marca)) &
+    (df["Mes_Ano"].isin(mes_Ano)) &
+    (df["Cliente"].isin(cliente))
+]
+
+
+#df_selection =df.query(
+#   "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
+#)
 
 # --- MAINPAGE ---
 
