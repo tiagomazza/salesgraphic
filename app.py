@@ -63,7 +63,8 @@ st.set_page_config(page_title="Sales",
 
 def limpar_e_converter(valor):
     if isinstance(valor, str):
-        valor_limpo = valor.replace('\xa0', '').replace(',', '.')
+        valor_limpo = valor.replace('\xa0', '')
+        #.replace(',', '.')
         try:
             return float(valor_limpo)
         except ValueError:
