@@ -61,11 +61,37 @@ st.set_page_config(page_title="Sales",
                    layout="wide"
 )
 
+def limpar_e_converter(valor):
+    if isinstance(valor, str):
+        # Remover espaços não quebráveis ('\xa0') e substituir vírgula por ponto
+        valor_limpo = valor.replace('\xa0', '').replace(',', '.')
+
+        # Tentar converter para float
+        try:
+            return float(valor_limpo)
+        except ValueError:
+            return None
+
+    elif isinstance(valor, (float, int)):
+        return valor  
+
+
+
 def formatar_euro(valor):
     if isinstance(valor, (int, float)):
         return '{:,.2f}€'.format(valor)
     else:
         return str(valor)  
+
+valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
+print(valores_desejados)
+
+df = df.iloc[1:]
+print(df["ValorArtigo"])
+
+df['ValorArtigo'] = df['ValorArtigo'].apply(limpar_e_converter)
+df2['ValorArtigo'] = df2['ValorArtigo'].apply(limpar_e_converter)
+print(df["ValorArtigo"])
 
 df['Data'] = pd.to_datetime(df['Data'], format='%d-%m-%Y', errors='coerce')
 df['Mes_Ano'] = df['Data'].dt.strftime('%m-%Y')
@@ -94,11 +120,14 @@ df2 = df2.reset_index(drop=True)
 
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
-print(df["ValorArtigo"])
+
+
+valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
+print(valores_desejados)
 
 #df3 = df2["Cliente"]
 #df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
-print(df["ValorArtigo"])
+
 
 #side bar
 
@@ -218,7 +247,6 @@ hide_st_style = """
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-
-#valor_desejado = df[df["OutraColuna"] == "Alvo"]["MinhaColuna"].values[0]
-
+valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
+print(valores_desejados)
 print("Fim do codigo")
