@@ -63,10 +63,7 @@ st.set_page_config(page_title="Sales",
 
 def limpar_e_converter(valor):
     if isinstance(valor, str):
-        # Remover espaços não quebráveis ('\xa0') e substituir vírgula por ponto
         valor_limpo = valor.replace('\xa0', '').replace(',', '.')
-
-        # Tentar converter para float
         try:
             return float(valor_limpo)
         except ValueError:
@@ -83,8 +80,6 @@ def formatar_euro(valor):
     else:
         return str(valor)  
 
-valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
-print(valores_desejados)
 
 df = df.iloc[1:]
 print(df["ValorArtigo"])
@@ -121,38 +116,31 @@ df2 = df2.reset_index(drop=True)
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
-
-valores_desejados = df[df["CodigoCliente"] == 4678]["ValorArtigo"].values
-print(valores_desejados)
-
-#df3 = df2["Cliente"]
-#df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
-
-
 #side bar
+combined_df = pd.concat([df, df2])
 
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
+    options=combined_df["Vendedor"].unique(),
+    default=combined_df["Vendedor"].unique()
 )
 
 marca = st.sidebar.multiselect(
     "selecione a Marca",
-    options=df["Marca"].unique(),
-    default=df["Marca"].unique()
+    options=combined_df["Marca"].unique(),
+    default=combined_df["Marca"].unique()
 )
 mes_Ano = st.sidebar.multiselect(
     "selecione o Mês Ano",
-    options=df["Mes_Ano"].unique(),
-    default=df["Mes_Ano"].unique()
+    options=combined_df["Mes_Ano"].unique(),
+    default=combined_df["Mes_Ano"].unique()
 )
 
 cliente = st.sidebar.multiselect(
     "selecione o Cliente:",
-    options=df["Cliente"].unique(),
-    default=df["Cliente"].unique()
+    options=combined_df["Cliente"].unique(),
+    default=combined_df["Cliente"].unique()
 )
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
