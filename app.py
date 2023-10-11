@@ -92,9 +92,8 @@ df2 = df2.iloc[1:]
 df2 = df2.reset_index(drop=True)
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
-print(df2['ValorArtigo'])
-#df2['ValorArtigo'] = df['ValorArtigo'].astype(float)
-#df2['ValorArtigo'] = df2['ValorArtigo'] / coeficienteDeDivisao
+
+
 df3 = df2["Cliente"]
 df = pd.concat([df, df3]).drop_duplicates().reset_index(drop=True)
 
@@ -139,10 +138,16 @@ df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
 df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
+#bug
+print(df2['ValorArtigo'])
 df2 = df2.iloc[1:]
-df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
-df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
+#df2['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'])
+#df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
+df2['ValorArtigo'] = df2['ValorArtigo'].astype(str)
+df2['ValorArtigo'] = df2['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
+print(df2['ValorArtigo'])
+#bug
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
@@ -219,4 +224,4 @@ hide_st_style = """
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-print(df2['ValorArtigo'])
+print("Fim do codigo")
