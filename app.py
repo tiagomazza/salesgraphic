@@ -134,8 +134,8 @@ st.title(":bar_chart: Dashboard de vendas")
 st.markdown("##")
 
 df = df.iloc[1:]
-df['ValorArtigo'] = pd.to_numeric(df['ValorArtigo'], errors='coerce')
-df_selection['ValorArtigo'] = pd.to_numeric(df_selection['ValorArtigo'], errors='coerce')
+df['ValorArtigo'] = df['ValorArtigo'].astype(str)
+df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 #bug
