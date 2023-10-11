@@ -134,6 +134,13 @@ cliente = st.sidebar.multiselect(
 df_selection =df.query(
     "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
 )
+df_selectionLY = df.query(
+    "Vendedor == @vendedor & Cliente==@cliente & Mes_Ano==@mes_Ano & Marca==@marca"
+)
+
+df['ValorArtigoLY'] = df['ValorArtigoLY'].astype(str)
+df['ValorArtigoLY'] = df['ValorArtigoLY'].apply(converter_para_numero)
+
 
 # --- MAINPAGE ---
 
