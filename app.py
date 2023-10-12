@@ -107,6 +107,8 @@ def converter_para_numero(valor_str):
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
+df = df[df['Vendedor'].str.contains('Diogo', case=False)]
+
 #side bar
 
 st.sidebar.header("Filtros de análise:")
