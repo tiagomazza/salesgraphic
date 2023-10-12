@@ -166,7 +166,7 @@ total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 df['ValorArtigoLY'] = df['ValorArtigoLY'].astype(str)
 df['ValorArtigoLY'] = df['ValorArtigoLY'].apply(converter_para_numero)
-total_sales = df_selection["ValorArtigoLY"].sum(skipna=True) /coeficienteDeDivisao
+total_sales = df["ValorArtigoLY"].sum(skipna=True) /coeficienteDeDivisao
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
