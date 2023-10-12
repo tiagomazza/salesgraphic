@@ -166,7 +166,7 @@ total_sales = df_selection["ValorArtigo"].sum(skipna=True)
 
 df['ValorArtigoLY'] = df['ValorArtigoLY'].astype(str)
 df['ValorArtigoLY'] = df['ValorArtigoLY'].apply(converter_para_numero)
-total_sales = df["ValorArtigoLY"].sum(skipna=True) /coeficienteDeDivisao
+total_goal = df["ValorArtigoLY"].sum(skipna=True) /coeficienteDeDivisao
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
@@ -176,7 +176,7 @@ with left_column:
 
 with right_column:
     st.subheader("Meta de vendas")
-    st.subheader(f"{total_sales:,.2f}€")
+    st.subheader(f"{total_goal:,.2f}€")
 
 st.markdown("---")
 
