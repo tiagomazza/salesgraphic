@@ -130,12 +130,6 @@ with st.sidebar:
         df = pd.concat([df, df2], join="outer", ignore_index=True)
 
 
-vendedor = st.sidebar.multiselect(
-    "selecione o vendedor:",
-    options=df["Vendedor"].unique(),
-    default=df["Vendedor"].unique()
-)
-
 marca = st.sidebar.multiselect(
     "selecione a Marca",
     options=df["Marca"].unique(),
@@ -153,7 +147,6 @@ cliente = st.sidebar.multiselect(
     default=df["Cliente"].unique()
 )
 df_selection = df[
-    (df["Vendedor"].isin(vendedor)) &
     (df["Marca"].isin(marca)) &
     (df["Mes_Ano"].isin(mes_Ano)) &
     (df["Cliente"].isin(cliente))
