@@ -175,7 +175,7 @@ with left_column:
 
 
 with right_column:
-    st.subheader("Meta de vendas")
+    st.subheader(":bullsey:Meta de vendas")
     st.subheader(f"{total_goal:,.2f}€")
 
 st.markdown("---")
