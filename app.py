@@ -108,6 +108,13 @@ df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
 #side bar
+def eliminar_linhas_diogo():
+    global df
+    df = df[df['Vendedor'] == 'Diogo']
+
+# Criar um botão para eliminar as linhas
+if st.button("Eliminar linhas com Vendedor igual a 'Diogo'"):
+    eliminar_linhas_diogo()
 
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
