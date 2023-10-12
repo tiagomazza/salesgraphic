@@ -107,27 +107,29 @@ def converter_para_numero(valor_str):
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
-if st.button("Diogo"):
-    df = df[(df['Vendedor'].str.contains('Diogo', case=False)) & (~df['Vendedor'].isna())]
-
-if st.button("Hugo"):
-    df = df[(df['Vendedor'].str.contains('Hugo', case=False)) & (~df['Vendedor'].isna())]
-
-if st.button("Orlando"):
-    df = df[(df['Vendedor'].str.contains('Orlando', case=False)) & (~df['Vendedor'].isna())]
-
-if st.button("Ladeiro"):
-    df = df[(df['Vendedor'].str.contains('Ladeiro', case=False)) & (~df['Vendedor'].isna())]
-
-if st.button("Vitor"):
-    df = df[(df['Vendedor'].str.contains('Vitor', case=False)) & (~df['Vendedor'].isna())]
-
-if st.button("Todos os vendedores"):
-    df = pd.concat([df, df2], join="outer", ignore_index=True)
-
 #side bar
 
 st.sidebar.header("Filtros de análise:")
+with st.sidebar:
+    if st.button("Diogo"):
+        df = df[(df['Vendedor'].str.contains('Diogo', case=False)) & (~df['Vendedor'].isna())]
+
+    if st.button("Hugo"):
+        df = df[(df['Vendedor'].str.contains('Hugo', case=False)) & (~df['Vendedor'].isna())]
+
+    if st.button("Orlando"):
+        df = df[(df['Vendedor'].str.contains('Orlando', case=False)) & (~df['Vendedor'].isna())]
+
+    if st.button("Ladeiro"):
+        df = df[(df['Vendedor'].str.contains('Ladeiro', case=False)) & (~df['Vendedor'].isna())]
+
+    if st.button("Vitor"):
+        df = df[(df['Vendedor'].str.contains('Vitor', case=False)) & (~df['Vendedor'].isna())]
+
+    if st.button("Todos os vendedores"):
+        df = pd.concat([df, df2], join="outer", ignore_index=True)
+
+
 vendedor = st.sidebar.multiselect(
     "selecione o vendedor:",
     options=df["Vendedor"].unique(),
