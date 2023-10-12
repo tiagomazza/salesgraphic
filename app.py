@@ -170,7 +170,7 @@ total_goal = df["ValorArtigoLY"].sum(skipna=True) /coeficienteDeDivisao
 
 left_column, middle_column, right_column = st.columns(3)
 with left_column:
-    st.subheader(":money_bag: Total de vendas:")
+    st.subheader("\U0001F4B0 Total de vendas:")
     st.subheader(f"{total_sales:,.2f}€")
 
 
