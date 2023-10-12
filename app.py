@@ -111,7 +111,7 @@ clicked=False
 #side bar
 def eliminar_linhas_diogo():
     global df
-    df = df[df['Vendedor'] == 'Diogo']
+    df = df[df['Vendedor'] != 'Diogo']
     # Define o estado do botão como clicado para forçar a atualização dos gráficos
     global clicked
     clicked = True
