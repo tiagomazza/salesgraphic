@@ -175,7 +175,7 @@ with left_column:
 
 
 with right_column:
-    st.subheader(":target: Meta de vendas")
+    st.subheader("\U0001F3AF Meta de vendas")
     st.subheader(f"{total_goal:,.2f}€")
 
 st.markdown("---")
