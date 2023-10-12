@@ -280,6 +280,9 @@ def criar_grafico():
 # Verifique se o botão foi clicado e atualize o gráfico
 if st.button("Eliminar linhas com Vendedor igual a 'Diogo'"):
     eliminar_linhas_diogo()
+df_selection = df[
+    (df["Vendedor"].isin(vendedor))  # Outros filtros de seleção
+]
 
 # Crie o gráfico
 fig = criar_grafico()
