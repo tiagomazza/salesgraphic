@@ -107,18 +107,7 @@ def converter_para_numero(valor_str):
 df['ValorArtigo'] = df['ValorArtigo'].astype(str)
 df['ValorArtigo'] = df['ValorArtigo'].apply(converter_para_numero)
 
-clicked=False
 #side bar
-def eliminar_linhas_diogo():
-    global df
-    df = df[~df['Vendedor'].str.contains('Diogo', case=False)]
-    # Define o estado do botão como clicado para forçar a atualização dos gráficos
-    global clicked
-    clicked = True
-
-# Criar um botão para eliminar as linhas
-if st.button("Eliminar linhas com Vendedor igual a 'Diogo'"):
-    eliminar_linhas_diogo()
 
 st.sidebar.header("Filtros de análise:")
 vendedor = st.sidebar.multiselect(
@@ -243,61 +232,4 @@ hide_st_style = """
     """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-def criar_grafico():
-    fig = go.Figure()
-
-    fig.add_trace(go.Bar(
-        y=sales_last["Cliente"],
-        x=sales_last["ValorArtigoLY"],
-        text=sales_last["Valor Líquido FormatadoLY"],
-        name="Meta",
-        orientation='h',
-        marker=dict(color='red'),
-        width=0.5
-    ))
-
-    fig.add_trace(go.Bar(
-        y=sales_client["Cliente"],
-        x=sales_client["ValorArtigo"],
-        text=sales_client["Valor Líquido Formatado"],
-        name="Valor atual",
-        orientation='h',
-        marker=dict(color='blue'),
-        width=0.5
-    ))
-
-    fig.update_layout(
-        title="Comparativo de vendas",
-        xaxis_title="Valores",
-        yaxis_title="Cliente",
-        barmode="overlay",
-        width=1000,
-        height=len(sales_last) * 20
-    )
-    fig.update_layout(plot_bgcolor="rgba(0,0,0,0)")
-    return fig
-
-# Verifique se o botão foi clicado e atualize o gráfico
-if st.button("Eliminar linhas com Vendedor igual a 'Diogo'"):
-    eliminar_linhas_diogo()
-df_selection = df[
-    (df["Vendedor"].isin(vendedor))  # Outros filtros de seleção
-]
-
-# Crie o gráfico
-fig = criar_grafico()
-
-# Exiba o gráfico
-st.plotly_chart(fig)
-
-# Use st.experimental_rerun para forçar um novo processamento quando o botão é clicado
-if clicked:
-    st.experimental_rerun()
-
-# Esconda o rodapé do Streamlit
-hide_st_style = """
-    <style>
-    footer {visibility: hidden;}
-    </style>
-    """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+print(df['Vendedor'])
